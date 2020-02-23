@@ -1,0 +1,14 @@
+{
+    "name": "lachie/social-network",
+    "authors": [
+        {
+            "name": "Layk",
+            "email": "layktwitch@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": ["app/", "core/"],
+		"files": ["core/helpers.php"]
+    }
+}
