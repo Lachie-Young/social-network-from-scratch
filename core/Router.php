@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Core\Request;
+use App\Core\Session;
 
 class Router
 {	
@@ -10,6 +11,13 @@ class Router
         "GET" => [],
         "POST" => []
     ];
+	
+	protected $session;
+	
+	public function __construct()
+	{
+		$this->session = new Session();
+	}
 
     public static function load($file)
     {
@@ -71,7 +79,7 @@ class Router
 	
 	private function authenticate()
 	{
-		$authenticated = false;
+		$authenticated = $this->session->has("auth");
 		
 		if (!$authenticated) {
 			return redirect("/login");

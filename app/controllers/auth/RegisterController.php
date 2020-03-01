@@ -33,7 +33,7 @@ class RegisterController
 		$user->create(
 			$data->first_name,
 			$data->last_name,
-			$data->email,
+			strtolower($data->email),
 			$data->password
 		);
 
