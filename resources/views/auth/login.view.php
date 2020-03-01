@@ -13,7 +13,9 @@
 						<label for="email">Email:</label>
 						<input name="email" type="text" />
 						<?php if (session()->errors("email")): ?>
-							<span class="validation-error"><?= session()->errors("email") ?><span>
+							<?php foreach (session()->errors("email") as $error): ?>
+								<span class="validation-error"><?= $error ?><span>
+							<?php endforeach; ?>
 						<?php endif; ?>
 					</div>
 					
@@ -21,7 +23,9 @@
 						<label for="password">Password:</label>
 						<input name="password" type="password" />
 						<?php if (session()->errors("password")): ?>
-							<span class="validation-error"><?= session()->errors("password") ?><span>
+							<?php foreach (session()->errors("password") as $error): ?>
+								<span class="validation-error"><?= $error ?><span>
+							<?php endforeach; ?>
 						<?php endif; ?>
 					</div>
 					

@@ -43,21 +43,61 @@ class User extends Model {
 		return $user;
 	}
 	
-	public function where($field, $value)
-	{
-		if ($field !== "password") {
-			try {
-				$stmt = $this->db->prepare("SELECT * FROM users WHERE $field = :value");
-				$stmt->execute([":value" => $value]);
-				$user = $stmt->fetch();
-			} catch (PDOException $e) {
-				die($e->getMessage());
+	public function where(array $conditions)
+	{	
+	
+		$query = "";
+		$values = [];
+		// Check whether the first element in the array is another array
+		// Meaning we will query multiple fields
+		// TODO: This seems hacky? Find better way to check?
+		
+		if (is_array($conditions[0])) {
+			$i = 0;
+			// Loop over each condition
+			foreach ($conditions as $condition) {
+				$field = $condition[0];
+				$comparitor = $condition[1];
+				$value = $condition[2];
+				
+				$values[":$field"] = $value;
+				
+				// Check if last item in array
+				if ($i == count($conditions) - 1) {
+					$query .= "$field $comparitor :$field";
+				} else {
+					$query .= "$field $comparitor :$field AND ";
+				}
+				
+				$i++;
 			}
-
-			return $user;
 		} else {
-			die("Naughty!");
+			// Else condition is only singular
+			$field = $conditions[0];
+			$comparitor = $conditions[1];
+			$value = $conditions[2];
+			
+			$values[":$field"] = $value;
+			
+			$query .= "$field $comparitor :$field";
 		}
+		
+		$sql = "SELECT * FROM users WHERE $query";
+				
+		try {
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute($values);
+			$user = $stmt->fetch();
+		} catch (PDOException $e) {
+			die($e->getMessage());
+		}
+
+		return $user;
 	}
 	
 }
+
+
+
+
+
