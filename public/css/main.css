@@ -51,6 +51,8 @@ html, body {
 .validation-error {
 	color: red;
 	font-size: 12px;
+	display: block;
+	margin: 3px 0;
 }
 
 .btn {

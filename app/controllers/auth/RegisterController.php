@@ -24,7 +24,7 @@ class RegisterController
 		$data = $this->request->validate([
 			"first_name" => ["required"],
 			"last_name" => ["required"],
-			"email" => ["required"],
+			"email" => ["required", "email", "unique"],
 			"password" => ["required"]
 		]);
 		
@@ -34,7 +34,9 @@ class RegisterController
 			$data->first_name,
 			$data->last_name,
 			$data->email,
-			hash("sha256", $data->password)
+			$data->password
 		);
+
+		return redirect("/login?success");
 	}
 }

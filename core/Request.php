@@ -55,7 +55,7 @@ class Request
 				// If field does not pass validation, push error messages into message bag to be flashed to session
 				if (is_array($validatedField)) {
 					if (array_key_exists("status", $validatedField) && $validatedField["status"] == false) {
-						$errors[$field] = $validatedField["error"];
+						$errors[$field][] = $validatedField["error"];
 					}
 				}
 			}
